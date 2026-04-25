@@ -1,0 +1,284 @@
+/* =========================================
+   リセット＆ベーススタイル
+========================================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg-main);
+    color: var(--text-main);
+    overflow: hidden;
+    user-select: none;
+}
+
+    body.preload {
+        visibility: hidden;
+    }
+
+/* =========================================
+   CSS変数
+========================================= */
+:root {
+    --accent: #9C27B0;
+    --accent-light: #E1BEE7;
+    --bg-main: #F4E8FF;
+    --text-main: #4A148C;
+    --text-soft: #5E35B1;
+    --btn-bg-1: #CE93D8;
+    --btn-bg-2: #AB47BC;
+    --paper-bg: #FCF8FF;
+    --line-color: rgba(156, 39, 176, 0.3);
+    --safe-top: 0;
+    --safe-bottom: 0;
+}
+
+/* =========================================
+   アプリ全体のレイアウト・セーフエリア
+========================================= */
+.app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.safe-top,
+.safe-bottom {
+    width: 100%;
+    pointer-events: none;
+}
+
+.safe-top {
+    height: var(--safe-top);
+    border-radius: 0 0 20px 20px;
+    background: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.safe-bottom {
+    height: var(--safe-bottom);
+    border-radius: 20px 20px 0 0;
+    background: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+/* =========================================
+   コンテンツエリア・コントロール
+========================================= */
+.contentArea {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+    overflow: hidden;
+}
+
+/* 初期化ボタン */
+#initButton {
+    padding: 12px;
+    background-color: var(--accent-light);
+    color: var(--text-main);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s, box-shadow 0.1s;
+    box-shadow: 0 4px 0 var(--accent);
+    -webkit-tap-highlight-color: transparent;
+}
+
+    #initButton:active {
+        transform: translateY(4px);
+        box-shadow: 0 0 0 var(--accent);
+        background-color: var(--btn-bg-1);
+    }
+
+/* テキストエリア */
+#heartSutraTextArea {
+    flex: 1 1 0;
+    min-height: 0;
+    background-color: var(--paper-bg);
+    color: var(--text-soft);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 42px;
+    overflow-y: auto;
+    background-image: linear-gradient(transparent 40px, var(--line-color) 40px, var(--line-color) 42px);
+    background-size: 100% 42px;
+    background-position: 0 10px;
+    background-attachment: local;
+    border: 2px solid var(--accent-light);
+    box-shadow: 0 4px 12px rgba(156, 39, 176, 0.1);
+    letter-spacing: 2px;
+    white-space: pre-wrap;
+    transition: background-color 1s ease, box-shadow 1s ease;
+}
+
+    /* 完了時の演出（黄金の光） */
+    #heartSutraTextArea.completed {
+        background-color: #FFF8E1;
+        box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+    }
+
+/* 穴埋めラベル */
+#labelContainer {
+    text-align: center;
+    font-size: 27px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: var(--text-main);
+    min-height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    /* ９文字以上の場合のみ適用されるスタイル */
+    #labelContainer.long-phrase {
+        /* 画面幅に合わせて縮小するが、１８～２６pxの間でキープさせる。 */
+        font-size: clamp(18px, 6vw, 26px);
+        /* 余分な文字間隔を詰めて、横幅を節約する。 */
+        letter-spacing: 1px;
+    }
+
+.placeholder-char {
+    font-size: 1.1em;
+    color: #BDBDBD;
+    display: inline-block;
+    transform: translateY(-2px);
+}
+
+/* 正解文字がポップに出現するアニメーション */
+.pop-in-char {
+    display: inline-block;
+    color: var(--accent);
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+/* ポップインアニメーション */
+@keyframes popIn {
+    0% {
+        transform: scale(0.2);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 穴埋めボタン */
+#buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 8px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.answerButton {
+    flex: 1;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--btn-bg-1), var(--btn-bg-2));
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: bold;
+    box-shadow: 0 6px 0 #7B1FA2;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    touch-action: manipulation;
+}
+
+    /* 押し込みアニメーション */
+    .answerButton:active {
+        transform: translateY(6px);
+        box-shadow: 0 0 0 #7B1FA2;
+    }
+
+/* カスタムトースト */
+#customToast {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(74, 20, 140, 0.9);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 100;
+    white-space: nowrap;
+    width: max-content;
+    max-width: 90vw;
+}
+
+    /* 表示時アニメーション */
+    #customToast.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        animation: gentleShake 0.4s ease-in-out;
+    }
+
+/* 軽い揺れアニメーション */
+@keyframes gentleShake {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    25% {
+        transform: translate(-55%, -50%) scale(1);
+    }
+
+    75% {
+        transform: translate(-45%, -50%) scale(1);
+    }
+}
+
+/* =========================================
+   真言完成（黄金の脈動エフェクト）
+========================================= */
+.mantra-completion {
+    animation: goldPulse 2s infinite alternate;
+}
+
+/* 黄金の光が脈動するアニメーション */
+@keyframes goldPulse {
+    0% {
+        text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+        color: #E91E63;
+        transform: scale(1);
+    }
+
+    100% {
+        text-shadow: 0 0 20px rgba(255, 193, 7, 1), 0 0 30px rgba(255, 64, 129, 0.8);
+        color: #FF4081;
+        transform: scale(1.05);
+    }
+}
