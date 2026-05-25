@@ -222,56 +222,6 @@ function setButtons(): void {
     });
 }
 
-///**
-// * ボタン押下処理
-// */
-//function handleButtonClick(clickedChar: string): void {
-//    if (currentPhraseIndex >= HEART_SUTRA_PHRASES.length) return;
-
-//    const phrase = HEART_SUTRA_PHRASES[currentPhraseIndex]!;
-//    const correctChar = phrase[currentCharIndex];
-
-//    // 押された文字が正解かどうかを判定する。
-//    if (clickedChar === correctChar) {
-//        // 正解の場合
-//        const spans = labelContainerElement.querySelectorAll("span");
-//        const targetSpan = spans[currentCharIndex]!;
-
-//        // クラスを付け替えて、アニメーションを発動させる。
-//        targetSpan.className = "pop-in-char";
-//        targetSpan.innerText = correctChar;
-
-//        currentCharIndex++;
-
-//        // 文字位置・文節位置を判定する
-//        if (currentCharIndex === phrase.length) {
-//            // 文節完成の場合
-
-//            // アニメーションを見せるため、少し間を空けてから（０．３秒）ノートに書き込む。
-//            setTimeout(() => {
-//                if (heartSutraTextAreaElement.innerHTML !== "") {
-//                    heartSutraTextAreaElement.innerHTML += "<br>";
-//                }
-//                heartSutraTextAreaElement.innerHTML += phrase;
-//                heartSutraTextAreaElement.scrollTop = heartSutraTextAreaElement.scrollHeight;
-
-//                currentPhraseIndex++;
-
-//                // 文節設定処理を呼び出す。
-//                setPhrase();
-//            }, 300);
-
-//        } else {
-//            // 文節完成以外の場合、ボタン設定処理を呼び出す。
-//            setButtons();
-//        }
-//    } else {
-//        // 不正解の場合
-//        showError();
-//    }
-//}
-
-
 /**
  * ボタン押下処理
  */
